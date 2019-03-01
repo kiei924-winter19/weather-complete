@@ -1,0 +1,22 @@
+<%
+ForecastIO.configure { |c| c.api_key = "462115257bc42b21a521817df066729d" }
+forecast = ForecastIO.forecast(42.0454106, -87.7339979).to_hash.deep_symbolize_keys
+days = forecast[:daily][:data]
+%>
+
+<div class="mt-5 mb-5">
+  <h1>Current Weather</h1>
+  <h2><%= forecast[:currently][:temperature].round %> °</h2>
+  <h3><%= forecast[:currently][:summary] %></h3>
+</div>
+
+<div class="row">
+  <% for day in days %>
+    <div class="col-sm-3 mt-5 mb-5">
+      <h4><%= Time.at(day[:time]).strftime("%A") %></h4>
+      <h5><%= day[:temperatureHigh].round %> °</h5>
+      <h6><%= day[:summary] %></h6>
+    </div>
+  <% end %>
+</div>
+
